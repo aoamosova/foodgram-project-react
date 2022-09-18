@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framewok',
+    'users.apps.UsersConfig',
+    'recipes.apps.RecipesConfig',
+    'tags.app.TagsConfig',
+    'ingredients.app.IngredientsConfig',
 ]
 
 MIDDLEWARE = [

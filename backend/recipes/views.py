@@ -1,3 +1,9 @@
+from django.http import HttpResponse
 from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from .models import Recipes
+
+class RecipesViewSet(viewsets.ModelViewSet):
+    queryset = Recipes.obgects.all
+
