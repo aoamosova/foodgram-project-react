@@ -5,5 +5,5 @@ from rest_framework import viewsets
 from .models import Recipes
 
 class RecipesViewSet(viewsets.ModelViewSet):
-    queryset = Recipes.obgects.all
+    queryset = Recipes.objects.all()
 
