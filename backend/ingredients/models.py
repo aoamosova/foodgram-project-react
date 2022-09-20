@@ -19,4 +19,12 @@ class Ingredients(models.Model):
         verbose_name_plural='Ингредиенты'
 
     def __str__(self):
-        return self.name
+        return {self.name}, {self.measurement_unit}
+
+    
+class IngredientsSum(models.Model):
+    ingredients= models.ForeignKey(
+        Ingredients,
+        verbose_name='Ингредиент',
+        on_delete=models.CASCADE,
+    )
