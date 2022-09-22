@@ -1,8 +1,8 @@
-from tabnanny import verbose
 from django.db import models
 
 
 class Ingredients(models.Model):
+    """ Ингридиенты """
     name = models.CharField(
         max_length=200,
         verbose_name='Название',
@@ -22,9 +22,20 @@ class Ingredients(models.Model):
         return {self.name}, {self.measurement_unit}
 
     
-class IngredientsSum(models.Model):
-    ingredients= models.ForeignKey(
+class IngredientsVolume(models.Model):
+    """Колличество ингридиентов"""
+    ingredient = models.ForeignKey(
         Ingredients,
         verbose_name='Ингредиент',
         on_delete=models.CASCADE,
     )
+    volume = models.PositiveIntegerField(
+        verbose_name='Количество'
+    )
+    
+    class Meta:
+        verbose_name='Количество ингридиента'
+        verbose_name_plural='Количество ингридиентов'
+
+    def __str__(self):
+        return {self.ingredient} - {self.volume}

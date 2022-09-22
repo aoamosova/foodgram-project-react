@@ -10,3 +10,5 @@ class TagsSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = Tags
+        lookup_fields = 'id'
+        extra_kwargs = {'url':{'lookup_fields':'id'}}

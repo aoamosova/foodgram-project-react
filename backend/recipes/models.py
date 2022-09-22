@@ -1,11 +1,11 @@
+from tabnanny import verbose
 from django.db import models
 from django.core import validators
-from django.contrib.auth import get_user_model
 
 from tags.models import Tags
-from ingredients.models import Ingredients
+from users.models import User
+from ingredients.models import IngredientsVolume
 
-User = get_user_model()
 
 class Recipes(models.Model):
     tags = models.ManyToManyField(
@@ -19,8 +19,8 @@ class Recipes(models.Model):
         related_name='recipes',
     )
     ingredients = models.ManyToManyField(
-        Ingredients,
-        verbose_name='Ингридиенты',
+        IngredientsVolume,
+        verbose_name='Список ингридиентов',
         related_name='recipes',
     )
     name = models.CharField(
@@ -28,7 +28,7 @@ class Recipes(models.Model):
         max_length=200,
     )
     image = models.ImageField(
-        upload_to='recipes/',
+        upload_to='recipes/images/',
         verbose_name='Картинка',
     )
     text = models.TextField(
@@ -36,13 +36,58 @@ class Recipes(models.Model):
     )
     cooking_time = models.PositiveSmallIntegerField(
         default=1,
-        validators=[validators.MinLengthValidator(1, 'Укажите время приготовления в минутах')],
+        validators=[validators.MinValueValidator(1, 'Укажите время приготовления в минутах')],
         verbose_name='Время приголовления в минутах',
     )
 
     class Meta:
+        ordering = ('-id',)
         verbose_name = 'Рецепт'
         verbose_name_plural='Рецепты'
 
     def __str__(self):
         return self.name
+
+
+class Favourites(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+    )
+    recipe = models.ForeignKey(
+        Recipes,
+        on_delete=models.CASCADE,
+        verbose_name='Рецепт',
+        related_name='favourites'
+    )
+
+    class Meta:
+        ordering = ('-id',)
+        verbose_name = 'Избранный рецепт'
+        verbose_name_plural = 'Избранные рецепты'
+        
+    def __str__(self):
+        return f'{self.user} добавил в избранное {self.recipe}'
+
+
+class ShoppingCart(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+    )
+    recipe = models.ForeignKey(
+        Recipes,
+        on_delete=models.CASCADE,
+        verbose_name='Рецепт',
+        related_name='shoppingcart'
+    )
+
+    class Meta:
+        ordering = ('-id',)
+        verbose_name = 'Список покупок'
+        verbose_name_plural = 'Список покупок'
+        
+    def __str__(self):
+        return f'{self.user} добавил в список покупок {self.recipe}'

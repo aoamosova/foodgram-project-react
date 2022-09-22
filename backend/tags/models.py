@@ -1,5 +1,5 @@
-from tabnanny import verbose
 from django.db import models
+
 
 class Tags(models.Model):
     name = models.CharField(
@@ -9,7 +9,7 @@ class Tags(models.Model):
         null=False,        
     )
     color = models.CharField(
-        max_length=7,
+        max_length=16,
         verbose_name='Цветовой HEX-код',
         unique=True,
         null=False,
@@ -18,6 +18,7 @@ class Tags(models.Model):
         verbose_name='Уникальный номер',
         max_length=50,
         unique=True,
+        null=False
     )
 
     class Meta:
