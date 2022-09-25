@@ -4,13 +4,14 @@ from django.core import validators
 
 from tags.models import Tags
 from users.models import User
-from ingredients.models import IngredientsVolume
+from ingredients.models import Ingredients
 
 
 class Recipes(models.Model):
     tags = models.ManyToManyField(
         Tags,
-        verbose_name='Тэги'
+        verbose_name='Тэги',
+        related_name='recipes',
     )
     author = models.ForeignKey(
         User,
@@ -19,7 +20,7 @@ class Recipes(models.Model):
         related_name='recipes',
     )
     ingredients = models.ManyToManyField(
-        IngredientsVolume,
+        Ingredients,
         verbose_name='Список ингридиентов',
         related_name='recipes',
     )
@@ -46,7 +47,7 @@ class Recipes(models.Model):
         verbose_name_plural='Рецепты'
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
 class Favourites(models.Model):

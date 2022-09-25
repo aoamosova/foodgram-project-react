@@ -5,7 +5,7 @@ from  .views import IngredientsViewSet
 app_name = 'ingredients'
 
 router = routers.DefaultRouter()
-router.register('ingredients', IngredientsViewSet)
+router.register('ingredients', IngredientsViewSet, basename='ingredients')
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -1,14 +1,15 @@
-from cgitb import lookup
-from dataclasses import fields
 from rest_framework import serializers
 
 from .models import Tags
+from recipes.models import Recipes
 
 
 class TagsSerializer(serializers.ModelSerializer):
-
     class Meta:
-        fields = '__all__'
+        fields = (
+            'id',
+            'name',
+            'color',
+            'slug',
+        )
         model = Tags
-        lookup_fields = 'id'
-        extra_kwargs = {'url':{'lookup_fields':'id'}}

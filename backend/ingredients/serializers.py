@@ -1,5 +1,3 @@
-from cgitb import lookup
-from dataclasses import fields
 from rest_framework import serializers
 
 from .models import Ingredients, IngredientsVolume
@@ -8,20 +6,39 @@ from .models import Ingredients, IngredientsVolume
 class IngredientsSerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = '__all__'
+        fields = (
+            'id',
+            'name',
+            'measurement_unit',
+        )
         model = Ingredients
 
 
 class IngredientsVolumeSerializer(serializers.ModelSerializer):
-    id = serializers.PrimaryKeyRelatedField(
-        queryset = Ingredients.objects.all(),
-    )
-    name = serializers.CharField(
-        source='ingredients.name',
-    )
-    measurment_unit = serializers.CharField(
-        source='measurement_unit',
-    ) 
+    id = serializers.ReadOnlyField(source='ingredients.id')
+    name = serializers.ReadOnlyField(source='ingredients.name')
+    measurement_unit = serializers.ReadOnlyField(
+        source='ingredient.measurement_unit')
+    volume = serializers.ReadOnlyField(
+        source='ingredient.volume')
     class Meta:
-        fields = '__all__'
+        fields = (
+            'id',
+            'name',
+            'measurement_unit',
+            'volume',
+        )
+        model = IngredientsVolume
+
+
+class IngredientsVolumeAddSerializer(serializers.ModelSerializer):
+    id = serializers.PrimaryKeyRelatedField(
+        source='ingridiens',
+        queryset=Ingredients.objects.all(),
+    )
+    class Meta:
+        fields = [
+            'id',
+            'volume',
+        ]
         model = IngredientsVolume

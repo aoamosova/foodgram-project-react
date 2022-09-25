@@ -1,4 +1,5 @@
 from django.db import models
+from django.core import validators
 
 
 class Ingredients(models.Model):
@@ -6,12 +7,10 @@ class Ingredients(models.Model):
     name = models.CharField(
         max_length=200,
         verbose_name='Название',
-        null=False,
     )
     measurement_unit = models.CharField(
         max_length=20,
         verbose_name='Единица измерения',
-        null=False,
     )
 
     class Meta:
@@ -19,18 +18,14 @@ class Ingredients(models.Model):
         verbose_name_plural='Ингредиенты'
 
     def __str__(self):
-        return {self.name}, {self.measurement_unit}
+        return f'{self.name}, {self.measurement_unit}'
 
     
 class IngredientsVolume(models.Model):
     """Колличество ингридиентов"""
-    ingredient = models.ForeignKey(
-        Ingredients,
-        verbose_name='Ингредиент',
-        on_delete=models.CASCADE,
-    )
+    ingredient = models.ForeignKey(Ingredients, on_delete=models.PROTECT)
     volume = models.PositiveIntegerField(
-        verbose_name='Количество'
+        validators=[validators.MinValueValidator(1, 'Не может быть менее 1')]
     )
     
     class Meta:
@@ -38,4 +33,4 @@ class IngredientsVolume(models.Model):
         verbose_name_plural='Количество ингридиентов'
 
     def __str__(self):
-        return {self.ingredient} - {self.volume}
+        return f'{self.ingredient} - {self.volume}'
