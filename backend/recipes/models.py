@@ -1,13 +1,13 @@
-from tabnanny import verbose
-from django.db import models
 from django.core import validators
+from django.db import models
 
+from ingredients.models import IngredientsAmount
 from tags.models import Tags
 from users.models import User
-from ingredients.models import Ingredients
 
 
 class Recipes(models.Model):
+    """Рецепты"""
     tags = models.ManyToManyField(
         Tags,
         verbose_name='Тэги',
@@ -20,7 +20,7 @@ class Recipes(models.Model):
         related_name='recipes',
     )
     ingredients = models.ManyToManyField(
-        Ingredients,
+        IngredientsAmount,
         verbose_name='Список ингридиентов',
         related_name='recipes',
     )
@@ -50,33 +50,46 @@ class Recipes(models.Model):
         return f'{self.name}'
 
 
-class Favourites(models.Model):
+class Favorite(models.Model):
+    """Избранное"""
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
+        related_name='favorite',
     )
     recipe = models.ForeignKey(
         Recipes,
         on_delete=models.CASCADE,
         verbose_name='Рецепт',
-        related_name='favourites'
+        related_name='favorite'
     )
 
     class Meta:
         ordering = ('-id',)
         verbose_name = 'Избранный рецепт'
         verbose_name_plural = 'Избранные рецепты'
+        constraints = [
+            models.UniqueConstraint(
+                fields=(
+                    'recipe',
+                    'user'
+                ),
+                name='unique_favorite_recipe'
+            )
+        ]
         
     def __str__(self):
         return f'{self.user} добавил в избранное {self.recipe}'
 
 
 class ShoppingCart(models.Model):
+    """Список покупок"""
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
+        related_name='shoppingcart'
     )
     recipe = models.ForeignKey(
         Recipes,
@@ -89,6 +102,15 @@ class ShoppingCart(models.Model):
         ordering = ('-id',)
         verbose_name = 'Список покупок'
         verbose_name_plural = 'Список покупок'
+        constraints = [
+            models.UniqueConstraint(
+                fields=(
+                    'recipe',
+                    'user'
+                ),
+                name='unique_cart_recipe'
+            )
+        ]
         
     def __str__(self):
         return f'{self.user} добавил в список покупок {self.recipe}'

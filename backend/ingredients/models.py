@@ -1,5 +1,5 @@
-from django.db import models
 from django.core import validators
+from django.db import models
 
 
 class Ingredients(models.Model):
@@ -21,10 +21,10 @@ class Ingredients(models.Model):
         return f'{self.name}, {self.measurement_unit}'
 
     
-class IngredientsVolume(models.Model):
+class IngredientsAmount(models.Model):
     """Колличество ингридиентов"""
     ingredient = models.ForeignKey(Ingredients, on_delete=models.PROTECT)
-    volume = models.PositiveIntegerField(
+    amount = models.PositiveIntegerField(
         validators=[validators.MinValueValidator(1, 'Не может быть менее 1')]
     )
     
@@ -33,4 +33,4 @@ class IngredientsVolume(models.Model):
         verbose_name_plural='Количество ингридиентов'
 
     def __str__(self):
-        return f'{self.ingredient} - {self.volume}'
+        return f'{self.ingredient} * {self.amount}'

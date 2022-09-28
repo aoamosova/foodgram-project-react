@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Ingredients, IngredientsVolume
+from .models import Ingredients, IngredientsAmount
 
 
 class IngredientsSerializer(serializers.ModelSerializer):
@@ -14,31 +14,32 @@ class IngredientsSerializer(serializers.ModelSerializer):
         model = Ingredients
 
 
-class IngredientsVolumeSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source='ingredients.id')
-    name = serializers.ReadOnlyField(source='ingredients.name')
-    measurement_unit = serializers.ReadOnlyField(
-        source='ingredient.measurement_unit')
-    volume = serializers.ReadOnlyField(
-        source='ingredient.volume')
+class IngredientsAmountSerializer(serializers.ModelSerializer):
+    id = serializers.PrimaryKeyRelatedField(
+        queryset=Ingredients.objects.all(),
+    )
+    name = serializers.CharField(source="ingredient.name")
+    measurement_unit = serializers.CharField(
+        source="ingredient.measurement_unit",
+    )
     class Meta:
         fields = (
             'id',
             'name',
             'measurement_unit',
-            'volume',
+            'amount',
         )
-        model = IngredientsVolume
+        model = IngredientsAmount
 
 
-class IngredientsVolumeAddSerializer(serializers.ModelSerializer):
+class IngredientsAmountAddSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(
-        source='ingridiens',
+        source='ingredient',
         queryset=Ingredients.objects.all(),
     )
     class Meta:
-        fields = [
+        fields = (
             'id',
-            'volume',
-        ]
-        model = IngredientsVolume
+            'amount',
+        )
+        model = IngredientsAmount

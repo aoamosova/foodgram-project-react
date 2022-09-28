@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from .models import Tags
-from recipes.models import Recipes
 
 
 class TagsSerializer(serializers.ModelSerializer):

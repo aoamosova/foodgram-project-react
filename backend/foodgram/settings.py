@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    "django_filters",
     'users.apps.UsersConfig',
     'recipes.apps.RecipesConfig',
     'tags.apps.TagsConfig',
@@ -106,6 +107,19 @@ REST_FRAMEWORK = {
 } 
 
 DJOSER = {
-    'LOGIN_FIELD': 'email',
-    
+    "PERMISSIONS": {
+        'user': ['users.permissions.AdminOrReadOnly'],
+        'user_list': ['rest_framework.permissions.AllowAny'],
+        'user_delete': ['rest_framework.permissions.IsAdminUser'],
+    },
+    "SERIALIZERS": {
+        "user": "users.serializers.CustomUserSerializer",
+        "current_user": "users.serializers.CustomUserSerializer",
+        "user_create": "users.serializers.CustomUserSerializer",
+    },
+   
+    "LOGIN_FIELD": "email",
+    "HIDE_USERS": False,
 }
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

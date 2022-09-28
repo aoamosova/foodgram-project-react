@@ -1,7 +1,8 @@
-from rest_framework import viewsets, permissions
+from rest_framework import permissions, viewsets
 
 from .models import Tags
 from .serializers import TagsSerializer
+
 
 class TagsViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Tags.objects.all()
