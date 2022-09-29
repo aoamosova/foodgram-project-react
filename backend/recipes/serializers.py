@@ -46,9 +46,11 @@ class RecipesReadSerializer(serializers.ModelSerializer):
 
 
     def get_is_favorited(self, obj):
+        """Статус - в избранном или нет."""
         return self._extracted_get(Favorite, obj)
 
     def get_is_in_shopping_cart(self, obj):
+        """Статус - списке покупок или нет."""
         return self._extracted_get(ShoppingCart, obj)
 
     def _extracted_get(self, arg0, obj):
@@ -81,6 +83,7 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
 
 
     def add_tags_and_ingredients(self, recipes, tags_data, ingredients_data):
+        """Добавление тегов и ингидинетов"""
         recipes.tags.set(tags_data)
         for item in ingredients_data:
             ingredient = item.get('ingredient')
@@ -94,6 +97,7 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
         return recipes
     
     def create(self, validated_data):
+        """Создание рецепта"""
         tags_data = validated_data.pop('tags')
         ingredients_data = validated_data.pop('ingredients')
         recipes = Recipes.objects.create(**validated_data)
@@ -102,6 +106,7 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
         )
 
     def update(self, instance, validated_data):
+        """Редактирование рецепта"""
         instance.ingredients.clear()
         instance.tags.clear()
         tags_data = validated_data.pop("tags")

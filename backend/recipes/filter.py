@@ -21,7 +21,6 @@ class RecipeFilter(FilterSet):
 
     def filter_shopping_cart(self, queryset, name, value):
         return queryset.filter(shoppingcart__user=self.request.user) if value else queryset
-    
     class Meta:
         model = Recipes
         fields = ('tags', 'author')

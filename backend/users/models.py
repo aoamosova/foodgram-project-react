@@ -5,17 +5,18 @@ from django.db.models import F, Q
 User = get_user_model()
 
 class Subscriptions(models.Model):
+    """Подписки на авторов"""
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         verbose_name='Подписчик',
-        related_name='sudscriber',
+        related_name='subscriber',
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         verbose_name='Автор на которого подписан',
-        related_name='sudscribed_authors',
+        related_name='subscribed_authors',
     )
 
     class Meta:

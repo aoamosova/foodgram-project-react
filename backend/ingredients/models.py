@@ -23,7 +23,7 @@ class Ingredients(models.Model):
     
 class IngredientsAmount(models.Model):
     """Колличество ингридиентов"""
-    ingredient = models.ForeignKey(Ingredients, on_delete=models.PROTECT)
+    ingredient = models.ForeignKey(Ingredients, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField(
         validators=[validators.MinValueValidator(1, 'Не может быть менее 1')]
     )
