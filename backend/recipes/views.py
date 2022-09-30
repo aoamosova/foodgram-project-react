@@ -17,7 +17,7 @@ from .serializers import (RecipesCreateSerializer, RecipesReadSerializer,
 
 class RecipesViewSet(viewsets.ModelViewSet):
     queryset = Recipes.objects.all()
-    permission_classes = [IsAuthorOrReadOnly, ]
+    permission_classes = (IsAuthorOrReadOnly, )
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
     def get_serializer_class(self):

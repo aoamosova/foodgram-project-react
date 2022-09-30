@@ -29,6 +29,7 @@ class RecipesReadSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
+    
     class Meta:
         fields = (
             'id',
@@ -44,7 +45,6 @@ class RecipesReadSerializer(serializers.ModelSerializer):
         )
         model = Recipes
 
-
     def get_is_favorited(self, obj):
         """Статус - в избранном или нет."""
         return self._extracted_get(Favorite, obj)
@@ -53,12 +53,14 @@ class RecipesReadSerializer(serializers.ModelSerializer):
         """Статус - списке покупок или нет."""
         return self._extracted_get(ShoppingCart, obj)
 
-    def _extracted_get(self, arg0, obj):
+    def _extracted_get(self, model, obj):
         request = self.context.get('request')
-        if request.user.is_anonymous:
-            return False
-        return arg0.objects.filter(user=request.user, recipe__id=obj.id).exists()
-
+        return(
+            request.user.is_authenticated
+            and model.objects.filter(
+                user=request.user, 
+                recipe__id=obj.id).exists()
+        )
 
 
 class RecipesCreateSerializer(serializers.ModelSerializer):
@@ -81,10 +83,10 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
         ) 
         model= Recipes
 
-
     def add_tags_and_ingredients(self, recipes, tags_data, ingredients_data):
         """Добавление тегов и ингидинетов"""
         recipes.tags.set(tags_data)
+        ingredient_amounts = []
         for item in ingredients_data:
             ingredient = item.get('ingredient')
             amount = item.get('amount')
@@ -92,7 +94,7 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
                 ingredient=ingredient,
                 amount=amount,
             )
-            ingredient_amounts = [ingredient_amount]
+            ingredient_amounts.append(ingredient_amount)
         recipes.ingredients.set(ingredient_amounts)
         return recipes
     
@@ -124,6 +126,7 @@ class ShortRecipeSerializer(serializers.ModelSerializer):
         max_length=None,
         use_url=True,
     )
+
     class Meta:
         model = Recipes
         fields = (
