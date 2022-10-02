@@ -1,6 +1,5 @@
 from django.core import validators
 from django.db import models
-
 from ingredients.models import IngredientsAmount
 from tags.models import Tags
 from users.models import User

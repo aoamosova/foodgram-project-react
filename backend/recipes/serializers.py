@@ -1,11 +1,10 @@
 import base64
 
 from django.core.files.base import ContentFile
-from rest_framework import serializers
-
 from ingredients.models import IngredientsAmount
 from ingredients.serializers import (IngredientsAmountAddSerializer,
                                      IngredientsAmountSerializer)
+from rest_framework import serializers
 from tags.models import Tags
 from tags.serializers import TagsSerializer
 from users.serializers import CustomUserSerializer
