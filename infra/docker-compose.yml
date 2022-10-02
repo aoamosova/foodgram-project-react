@@ -30,7 +30,7 @@ services:
       - frontend
   
   backend:
-    image: aoamosovafoodgram_backend:latest
+    image: aoamosova/foodgram_backend:latest
     restart: always
     volumes:
       - static_value:/app_backend/static/
