@@ -13,6 +13,7 @@ class IngredientAdmin(admin.ModelAdmin):
     ordering = ('name',)
     list_filter = ("name",)
 
+
 @admin.register(IngredientsAmount)
 class IngredientAmountAdmin(admin.ModelAdmin):
     list_display = (

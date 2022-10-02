@@ -37,14 +37,18 @@ class Recipes(models.Model):
     )
     cooking_time = models.PositiveSmallIntegerField(
         default=1,
-        validators=[validators.MinValueValidator(1, 'Укажите время приготовления в минутах')],
+        validators=[
+            validators.MinValueValidator(
+                1, 'Укажите время приготовления в минутах'
+            )
+        ],
         verbose_name='Время приголовления в минутах',
     )
 
     class Meta:
         ordering = ('-id',)
         verbose_name = 'Рецепт'
-        verbose_name_plural='Рецепты'
+        verbose_name_plural = 'Рецепты'
 
     def __str__(self):
         return f'{self.name}'
@@ -78,7 +82,7 @@ class Favorite(models.Model):
                 name='unique_favorite_recipe'
             )
         ]
-        
+
     def __str__(self):
         return f'{self.user} добавил в избранное {self.recipe}'
 
@@ -111,6 +115,6 @@ class ShoppingCart(models.Model):
                 name='unique_cart_recipe'
             )
         ]
-        
+
     def __str__(self):
         return f'{self.user} добавил в список покупок {self.recipe}'

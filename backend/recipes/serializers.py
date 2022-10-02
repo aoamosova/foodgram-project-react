@@ -29,7 +29,7 @@ class RecipesReadSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
-    
+
     class Meta:
         fields = (
             'id',
@@ -55,10 +55,10 @@ class RecipesReadSerializer(serializers.ModelSerializer):
 
     def _extracted_get(self, model, obj):
         request = self.context.get('request')
-        return(
+        return (
             request.user.is_authenticated
             and model.objects.filter(
-                user=request.user, 
+                user=request.user,
                 recipe__id=obj.id).exists()
         )
 
@@ -71,7 +71,7 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
     )
     ingredients = IngredientsAmountAddSerializer(many=True, required=False)
     image = Base64ImageField()
-    
+
     class Meta:
         fields = (
             'tags',
@@ -80,8 +80,8 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
             'image',
             'text',
             'cooking_time',
-        ) 
-        model= Recipes
+        )
+        model = Recipes
 
     def add_tags_and_ingredients(self, recipes, tags_data, ingredients_data):
         """Добавление тегов и ингидинетов"""
@@ -97,7 +97,7 @@ class RecipesCreateSerializer(serializers.ModelSerializer):
             ingredient_amounts.append(ingredient_amount)
         recipes.ingredients.set(ingredient_amounts)
         return recipes
-    
+
     def create(self, validated_data):
         """Создание рецепта"""
         tags_data = validated_data.pop('tags')

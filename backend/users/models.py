@@ -4,6 +4,7 @@ from django.db.models import F, Q
 
 User = get_user_model()
 
+
 class Subscriptions(models.Model):
     """Подписки на авторов"""
     user = models.ForeignKey(
@@ -21,12 +22,12 @@ class Subscriptions(models.Model):
 
     class Meta:
         verbose_name = 'Подписка'
-        verbose_name_plural='Подписки'
+        verbose_name_plural = 'Подписки'
         constraints = [
             models.UniqueConstraint(
                 fields=(
                     'user',
-                    'author', 
+                    'author',
                 ),
                 name='unique_subscribe',
             ),

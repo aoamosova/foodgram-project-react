@@ -13,4 +13,3 @@ class IngredientsViewSet(viewsets.ModelViewSet):
     pagination_class = None
     filter_backends = (DjangoFilterBackend, )
     filterset_class = IngredientSearchFilter
-    

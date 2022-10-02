@@ -11,13 +11,13 @@ class CustomUserSerializer(UserSerializer):
 
     class Meta:
         fields = (
-           'email',
-           'id',
-           'username',
-           'first_name',
-           'last_name',
-           'is_subscribed',
-           'password',
+            'email',
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'is_subscribed',
+            'password',
         )
         model = User
         extra_kwargs = {
@@ -30,7 +30,7 @@ class CustomUserSerializer(UserSerializer):
         return (
             user.is_authenticated
             and Subscriptions.objects.filter(
-            user=user, author=obj).exists()
+                user=user, author=obj).exists()
         )
 
     def create(self, validated_data):
@@ -89,7 +89,7 @@ class SubscriptionSerializer(UserSerializer):
         return (
             user.is_authenticated
             and Subscriptions.objects.filter(
-            user=user, author=obj).exists()
+                user=user, author=obj).exists()
         )
 
     def get_recipes_count(self, obj):

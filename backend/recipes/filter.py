@@ -19,10 +19,13 @@ class RecipeFilter(FilterSet):
     class Meta:
         model = Recipes
         fields = ('tags', 'author')
-        
+
     def filter_favorited(self, queryset, name, value):
-        return queryset.filter(favorite__user=self.request.user) if value else queryset
+        return queryset.filter(
+            favorite__user=self.request.user
+        ) if value else queryset
 
     def filter_shopping_cart(self, queryset, name, value):
-        return queryset.filter(shoppingcart__user=self.request.user) if value else queryset
-   
+        return queryset.filter(
+            shoppingcart__user=self.request.user
+        ) if value else queryset

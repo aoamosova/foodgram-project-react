@@ -5,7 +5,7 @@ class Tags(models.Model):
     """Тэги"""
     name = models.CharField(
         max_length=200,
-        verbose_name='Название',        
+        verbose_name='Название',
     )
     color = models.CharField(
         max_length=16,
@@ -19,7 +19,7 @@ class Tags(models.Model):
 
     class Meta:
         verbose_name = 'Тег'
-        verbose_name_plural='Теги'
+        verbose_name_plural = 'Теги'
         constraints = [
             models.UniqueConstraint(
                 fields=(

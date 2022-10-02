@@ -20,6 +20,7 @@ class RecipesViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthorOrReadOnly, )
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
+
     def get_serializer_class(self):
         if self.request.method in permissions.SAFE_METHODS:
             return RecipesReadSerializer
@@ -48,12 +49,12 @@ class RecipesViewSet(viewsets.ModelViewSet):
     def metod(self, request, model, pk=None):
         """Логика удалить/добавить"""
         user = request.user
-        model=model
+        model = model
         if request.method == 'POST':
             return self.add(model, user, pk)
         if request.method == 'DELETE':
             return self.delete_relation(model, user, pk)
-    
+
     @action(
         methods=['post', 'delete'],
         detail=True,
@@ -84,6 +85,7 @@ class RecipesViewSet(viewsets.ModelViewSet):
         ).annotate(amount=Sum('amount')).values_list(
             'ingredient__name', 'amount', 'ingredient__measurement_unit'
         )
-        data = ''.join(f'{key} - {value} - {unit}\n' for key, value, unit in shopping_list)
+        data = ''.join(
+            f'{key} - {value} - {unit}\n' for key, value, unit in shopping_list
+        )
         return HttpResponse(data, content_type='text/plain')
-        

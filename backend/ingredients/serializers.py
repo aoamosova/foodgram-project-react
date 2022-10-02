@@ -22,6 +22,7 @@ class IngredientsAmountSerializer(serializers.ModelSerializer):
     measurement_unit = serializers.CharField(
         source="ingredient.measurement_unit",
     )
+
     class Meta:
         fields = (
             'id',
@@ -37,6 +38,7 @@ class IngredientsAmountAddSerializer(serializers.ModelSerializer):
         source='ingredient',
         queryset=Ingredients.objects.all(),
     )
+
     class Meta:
         fields = (
             'id',

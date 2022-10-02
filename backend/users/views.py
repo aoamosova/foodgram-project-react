@@ -10,7 +10,7 @@ from users.serializers import CustomUserSerializer, SubscriptionSerializer
 class CustomUsersViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by("id")
     serializer_class = CustomUserSerializer
-    
+
     @action(
         detail=False,
         methods=('get', ),
