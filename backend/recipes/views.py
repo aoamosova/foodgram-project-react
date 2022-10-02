@@ -45,17 +45,22 @@ class RecipesViewSet(viewsets.ModelViewSet):
         relation.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def metod(self, request, model, pk=None):
+        """Логика удалить/добавить"""
+        user = request.user
+        model=model
+        if request.method == 'POST':
+            return self.add(model, user, pk)
+        if request.method == 'DELETE':
+            return self.delete_relation(model, user, pk)
+    
     @action(
         methods=['post', 'delete'],
         detail=True,
     )
     def favorite(self, request, pk=None):
         """Добавление и удаление Избранное."""
-        user = request.user
-        if request.method == 'POST':
-            return self.add(Favorite, user, pk)
-        if request.method == 'DELETE':
-            return self.delete_relation(Favorite, user, pk)
+        return self.metod(request, Favorite, pk)
 
     @action(
         methods=['post', 'delete'],
@@ -63,12 +68,8 @@ class RecipesViewSet(viewsets.ModelViewSet):
     )
     def shopping_cart(self, request, pk=None):
         """Добавление и удаление в Список покупок."""
-        user = request.user
-        if request.method == 'POST':
-            return self.add(ShoppingCart, user, pk)
-        if request.method == 'DELETE':
-            return self.delete_relation(ShoppingCart, user, pk)
-    
+        return self.metod(request, ShoppingCart, pk)
+
     @action(
         methods=['get'],
         detail=False,
