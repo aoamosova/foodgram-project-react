@@ -7,7 +7,7 @@ from users.models import Subscriptions, User
 from users.serializers import CustomUserSerializer, SubscriptionSerializer
 
 
-class CustomUsersViewSet(viewsets.ModelViewSet):
+class CustomUsersViewSet(viewsets.ModelViewSet): #тесты isort
     queryset = User.objects.all().order_by("id")
     serializer_class = CustomUserSerializer
 
