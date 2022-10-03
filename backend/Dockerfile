@@ -9,3 +9,5 @@ RUN pip3 install -r /app_backend/requirements.txt --no-cache-dir
 COPY ./ /app_backend
 
 WORKDIR /app_backend
+
+CMD ["gunicorn", "foodgram.wsgi:application", "--bind", "0:8000" ]
