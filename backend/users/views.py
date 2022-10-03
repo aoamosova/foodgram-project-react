@@ -1,6 +1,6 @@
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from users.models import Subscriptions, User
 from users.serializers import CustomUserSerializer, SubscriptionSerializer
@@ -9,6 +9,7 @@ from users.serializers import CustomUserSerializer, SubscriptionSerializer
 class CustomUsersViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by("id")
     serializer_class = CustomUserSerializer
+    permission_classes = (AllowAny, )
 
     @action(
         detail=False,
