@@ -20,8 +20,9 @@ Cайт «Продуктовый помощник». Пользователи с
 Проект запущен и доступен по адресу [http://62.84.116.89/recipes](http://62.84.116.89/recipes)
 
 Админка доступна по адресу [http://62.84.116.89/admin/](http://62.84.116.89/admin/)
-email: anastasia.am0s0va@yandex.ru
-pass: sx3222sw
+*login: admin
+*email: admin@inbox.ru
+*pass: admin
 
 Документация для написания api проекта доступна по адресу [http://62.84.116.89/api/docs/redoc.html](http://62.84.116.89/api/docs/redoc.html)
 
@@ -78,7 +79,7 @@ scp infra/nginx.conf <username>@<ip host>:/home/<username>/nginx.conf
     ```
     - Импортровать в БД ингредиенты, чтобы пользователи могли ими пользоваться при создании рецептов:  
     ```
-    sudo docker-compose exec backend python3 manage.py import_ingredients
+    sudo docker-compose exec backend python manage.py import_ingredients
     ```
     - Заполнить БД начальными данными (необязательно):  
     ```
