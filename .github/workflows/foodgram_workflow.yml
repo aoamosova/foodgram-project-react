@@ -70,7 +70,7 @@ jobs:
               echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
               sudo docker-compose up --force-recreate -d
               sudo docker-compose exec -T backend python manage.py makemigrations
-              sudo docker-compose exec -T backend python manage.py migrate --noinput
+              sudo docker-compose exec -T backend python manage.py migrate --no-input
               sudo docker-compose exec -T backend python manage.py collectstatic --no-input
 
   send_message:
